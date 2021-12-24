@@ -17,6 +17,6 @@ const Article = connection.define('articles', {
 Category.hasMany(Article); // Uma categoria tem muitos artigos (1 - P - M )
 Article.belongsTo(Category); //Meu artigo pertence a uma categoria (1 - P - 1)
 
-// Article.sync({force: true}); //Criar a tabela sempre que axecutar o progrma
+//Article.sync({force: true}); //Criar a tabela sempre que axecutar o progrma
 
 module.exports = Article;
