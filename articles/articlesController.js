@@ -5,7 +5,12 @@ const Articles = require("./Article");
 const slugify = require("slugify");
 
 router.get("/admin/articles", (req, res) => {
-  res.send("ROTA DE ARTIGOS");
+  Articles.findAll({
+    include: [{model: Category}] // INNER JOIN
+  }).then(articles => {
+    res.render("admin/articles/index", {articles, articles});
+  })
+  
 });
 
 router.get("/admin/articles/new", (req, res) => {
@@ -30,5 +35,26 @@ router.post("/articles/save", (req, res) =>{
   })
 
 });
+
+router.post("/articles/delete", (req, res) => {
+  var id = req.body.id;
+
+  if (id != undefined) {
+    if (!isNaN(id)) // Verifica se nao eh nuemrico
+    {
+      Articles.destroy({
+        where: {
+          id: id
+        }
+      }).then(() => {
+        res.redirect('/admin/articles');
+      })
+    } else { // nao for numero
+      res.render('/admin/articles');
+    }
+  } else {
+    res.redirect('/admin/articles');
+  }
+})
 
 module.exports = router;
