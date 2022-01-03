@@ -6,9 +6,11 @@ const connection = require('./database/database');
 
 const categoriesController = require('./categories/categoriesController');
 const articlesController = require('./articles/articlesController');
+const usersController = require('./user/UserController');
 
 const Article = require('./articles/Article');
 const Category = require('./categories/Category');
+const User = require('./user/User');
 
 
 
@@ -36,6 +38,7 @@ connection
 
 app.use("/", categoriesController);
 app.use("/", articlesController);
+app.use("/", usersController);
 
 app.get("/", (req, res) => {
   Article.findAll({

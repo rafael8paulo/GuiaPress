@@ -11,6 +11,6 @@ const Category = connection.define('categories', {
   }
 })
 
-//Category.sync({force: true}); //Criar a tabela sempre que axecutar o progrma
+Category.sync({force: false}); //Criar a tabela sempre que axecutar o progrma (false: só cria se não existir)
 
 module.exports = Category;
