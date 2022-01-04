@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const connection = require('./database/database');
-
+const session = require('express-session');
 
 const categoriesController = require('./categories/categoriesController');
 const articlesController = require('./articles/articlesController');
@@ -16,6 +16,31 @@ const User = require('./user/User');
 
 // View engine 
 app.set('view engine', 'ejs');
+
+//Redis [banco de dados para salvar cache e sessões ]
+
+
+// Sessions
+app.use(session({
+  secret: "master",
+  cookie: {maxAge: 300000} // Tempo de desconexão automatico 
+}))
+
+
+app.get("/session", (req, res) => {
+  req.session.treinamento = "Formacao Node.js";
+  req.session.ano = "2019";
+  req.session.email = "rafael@gmail.com";
+  res.send("Sessao gerada !!")
+});
+
+app.get("/leitura", (req, res) => {
+  res.json({
+    treinamento: req.session.treinamento,
+    ano: req.session.ano,
+    email: req.session.email 
+  })
+});
 
 //Static
 app.use(express.static('public'));
